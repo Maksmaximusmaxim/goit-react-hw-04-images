@@ -1,16 +1,32 @@
-export const App = () => {
-  return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
-      }}
-    >
-      React homework template
-    </div>
-  );
+import React from 'react';
+import {Searchbar} from '../components/Searchbar/Searchbar';
+import { Button } from './Button/Button';
+import { ImageGallery } from './ImageGallery/ImageGallery';
+export class App extends React.Component{
+  state={
+    photos: '',
+    page: 1,
+  }
+  inputData = data => {
+    console.log(data)
+    this.setState({
+      photos:data
+    })
+    
+  }
+loadMore = ()=>{
+this.setState(prevState=>({page:prevState.page + 1,})
+  
+)
+}
+  render(){
+      return (
+  <div>
+    <Searchbar onSubmit={this.inputData}/>
+    <ImageGallery inputPhotoTittle={this.state.photos}/>
+    <Button onClick={this.loadMore}/>
+  </div>
+  )
+  }
+
 };
