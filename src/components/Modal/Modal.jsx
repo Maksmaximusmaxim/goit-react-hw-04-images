@@ -27,7 +27,7 @@ onClick = e => {
         return createPortal(
             <div className={css.Overlay} onClick={this.onClick}>
    <div className={css.Modal}>
-   <img src={this.props.bigImg} alt="картинка" />
+   <img src={this.props.bigImg} width="900" alt="картинка" />
   </div>
   </div>, modalRoot,
         )

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Notiflix from 'notiflix';
+import css from '../Searchbar/Searchbar.module.css'
 export class Searchbar extends Component {
     state={
         photoTittle: '',
@@ -25,15 +26,16 @@ export class Searchbar extends Component {
     }
     render(){
         return(
-            <header className="searchbar">
-  <form onSubmit={this.onSubmit} className="form">
-    <button type="submit" className="button">
-      <span className="button-label">поиск</span>
+            <header className={css.searchbar}>
+  <form onSubmit={this.onSubmit} className={css.SearchForm}>
+    <button type="submit" className={css.searchFormbutton}>
+      <span >поиск</span>
     </button>
 
     <input
+    className={css.searchForminput}
     onChange={this.onChange}
-      className="input"
+      
       value={this.state.photoTittle}
       type="text"
       autoComplete="off"

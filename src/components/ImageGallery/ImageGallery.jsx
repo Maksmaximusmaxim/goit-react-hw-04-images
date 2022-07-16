@@ -1,6 +1,7 @@
 import React from 'react';
 import { ImageGalleryItem } from './ImageGalleryItem';
 import {Loader} from '../Loader/Loader';
+import css from '../ImageGallery/ImgGallary.module.css'
 export class ImageGallery extends React.Component{
 
     state={
@@ -27,7 +28,7 @@ render(){
     return (
         <>
     {this.state.loader && <Loader/>} 
-<ul>
+<ul className={css.imageGallery}>
 {this.state.returnedPhotos && this.state.returnedPhotos.map(p => <ImageGalleryItem key={p.id} webformatURL={p.webformatURL} largeImageURL={p.largeImageURL} tags={p.tags} onClick={this.props.onClick} />) }
 </ul>
 </>
