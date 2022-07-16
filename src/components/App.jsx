@@ -6,11 +6,14 @@ export class App extends React.Component{
   state={
     photos: '',
     page: 1,
+    
   }
   inputData = data => {
     console.log(data)
     this.setState({
-      photos:data
+      photos:data,
+      page:1,
+      loader:true,
     })
     
   }
@@ -23,8 +26,9 @@ this.setState(prevState=>({page:prevState.page + 1,})
       return (
   <div>
     <Searchbar onSubmit={this.inputData}/>
-    <ImageGallery inputPhotoTittle={this.state.photos}/>
+    <ImageGallery inputPhotoTittle={this.state}/>
     <Button onClick={this.loadMore}/>
+   
   </div>
   )
   }
