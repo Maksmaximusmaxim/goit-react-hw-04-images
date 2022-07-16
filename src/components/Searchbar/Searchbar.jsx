@@ -10,6 +10,7 @@ export class Searchbar extends Component {
       photoTittle: '',
     });
   };
+
   onSubmit = e => {
     e.preventDefault();
     if (this.state.photoTittle.trim() === '') {

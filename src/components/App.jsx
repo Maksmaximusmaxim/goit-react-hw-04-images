@@ -40,7 +40,9 @@ export class App extends React.Component {
       <div>
         <Searchbar onSubmit={this.inputData} />
         <ImageGallery inputPhotoTittle={this.state} onClick={this.showBigImg} />
-        <Button onClick={this.loadMore} />
+      
+       {this.state.photos ==='' ? '' :<Button onClick={this.loadMore} />} 
+       
         {this.state.showModal && (
           <Modal onClose={this.togleModal} bigImg={this.state.bigImg} />
         )}
