@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Notiflix from 'notiflix';
 import css from '../Searchbar/Searchbar.module.css';
 export class Searchbar extends Component {
   state = {
     photoTittle: '',
   };
+  static propTypes = {
+    onSubmit:PropTypes.func,
+  }
   reset = () => {
     this.setState({
       photoTittle: '',
@@ -16,6 +20,7 @@ export class Searchbar extends Component {
     if (this.state.photoTittle.trim() === '') {
       return Notiflix.Notify.info('Введите что нибудь');
     }
+
     this.reset();
     this.props.onSubmit(this.state.photoTittle);
   };
@@ -24,6 +29,7 @@ export class Searchbar extends Component {
       photoTittle: e.target.value,
     });
   };
+
   render() {
     return (
       <header className={css.searchbar}>
