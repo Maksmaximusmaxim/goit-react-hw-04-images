@@ -5,7 +5,9 @@ import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Modal } from '../components/Modal/Modal';
 import { api } from './api';
 import { Loader } from './Loader/Loader';
-// console.log(api.then(r =>  console.log(r)));
+
+
+
 export class App extends React.Component {
   state = {
     photos: '',
@@ -58,22 +60,24 @@ export class App extends React.Component {
     }));
   };
   render() {
+    const {loader,returnedPhotos,showModal,bigImg} = this.state;
+    const {inputData,showBigImg,loadMore,togleModal} = this;
     return (
       <div>
-        <Searchbar onSubmit={this.inputData} />
-        {this.state.loader && <Loader />}
-        {this.state.returnedPhotos.length > 0 && (
+        <Searchbar onSubmit={inputData} />
+        {loader && <Loader />}
+        {returnedPhotos.length >0 ? (
           <>
             <ImageGallery
-              inputPhotoTittle={this.state.returnedPhotos}
-              onClick={this.showBigImg}
+              inputPhotoTittle={returnedPhotos}
+              onClick={showBigImg}
             />
-            <Button onClick={this.loadMore} />
+            <Button onClick={loadMore} />
           </>
-        )}
+        ) : <div>Здесь ,пока что, ничего нет. Введите запрос(🦆🐁🦝🐇)</div> }
 
-        {this.state.showModal && (
-          <Modal onClose={this.togleModal} bigImg={this.state.bigImg} />
+        {showModal && (
+          <Modal onClose={togleModal} bigImg={bigImg} />
         )}
       </div>
     );
