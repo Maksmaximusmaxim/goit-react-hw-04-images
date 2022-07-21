@@ -17,7 +17,17 @@ export class App extends React.Component {
     loader: false,
     returnedPhotos: [],
   };
-
+loadPhotos =()=>{
+  this.setState({
+    loader: true,
+  });
+  api(this.state.photos, this.state.page).then(data => {
+    this.setState(prevState => ({
+      returnedPhotos: prevState.returnedPhotos.concat(data),
+      loader: !prevState.loader,
+    }));
+  });
+}
   togleModal = () => {
     this.setState(prevState => ({
       showModal: !prevState.showModal,
@@ -30,26 +40,26 @@ export class App extends React.Component {
       photos: data,
       page: 1,
       returnedPhotos: [],
-    });
+    }, this.loadPhotos);
   };
-  componentDidUpdate(prevProps, prevState) {
-    if (
-      prevState.photos !== this.state.photos ||
-      prevState.page !== this.state.page
-    ) {
-      this.setState({
-        loader: true,
-      });
-      api(this.state.photos, this.state.page).then(data => {
-        this.setState(prevState => ({
-          returnedPhotos: prevState.returnedPhotos.concat(data),
-          loader: !prevState.loader,
-        }));
-      });
-    }
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (
+  //     prevState.photos !== this.state.photos ||
+  //     prevState.page !== this.state.page
+  //   ) {
+  //     this.setState({
+  //       loader: true,
+  //     });
+  //     api(this.state.photos, this.state.page).then(data => {
+  //       this.setState(prevState => ({
+  //         returnedPhotos: prevState.returnedPhotos.concat(data),
+  //         loader: !prevState.loader,
+  //       }));
+  //     });
+  //   }
+  // }
   loadMore = () => {
-    this.setState(prevState => ({ page: prevState.page + 1 }));
+    this.setState(prevState => ({ page: prevState.page + 1 }) , this.loadPhotos);
   };
   showBigImg = bigImg => {
     this.setState({
