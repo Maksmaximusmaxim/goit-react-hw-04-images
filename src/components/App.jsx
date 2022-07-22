@@ -17,17 +17,7 @@ export class App extends React.Component {
     loader: false,
     returnedPhotos: [],
   };
-loadPhotos =()=>{
-  this.setState({
-    loader: true,
-  });
-  api(this.state.photos, this.state.page).then(data => {
-    this.setState(prevState => ({
-      returnedPhotos: prevState.returnedPhotos.concat(data),
-      loader: !prevState.loader,
-    }));
-  });
-}
+
   togleModal = () => {
     this.setState(prevState => ({
       showModal: !prevState.showModal,
@@ -40,26 +30,26 @@ loadPhotos =()=>{
       photos: data,
       page: 1,
       returnedPhotos: [],
-    }, this.loadPhotos);
+    });
   };
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (
-  //     prevState.photos !== this.state.photos ||
-  //     prevState.page !== this.state.page
-  //   ) {
-  //     this.setState({
-  //       loader: true,
-  //     });
-  //     api(this.state.photos, this.state.page).then(data => {
-  //       this.setState(prevState => ({
-  //         returnedPhotos: prevState.returnedPhotos.concat(data),
-  //         loader: !prevState.loader,
-  //       }));
-  //     });
-  //   }
-  // }
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevState.photos !== this.state.photos ||
+      prevState.page !== this.state.page
+    ) {
+      this.setState({
+        loader: true,
+      });
+      api(this.state.photos, this.state.page).then(data => {
+        this.setState(prevState => ({
+          returnedPhotos: prevState.returnedPhotos.concat(data),
+          loader: !prevState.loader,
+        }));
+      });
+    }
+  }
   loadMore = () => {
-    this.setState(prevState => ({ page: prevState.page + 1 }) , this.loadPhotos);
+    this.setState(prevState => ({ page: prevState.page + 1 }) );
   };
   showBigImg = bigImg => {
     this.setState({
@@ -75,13 +65,14 @@ loadPhotos =()=>{
     return (
       <div>
         <Searchbar onSubmit={inputData} />
-        {loader && <Loader />}
+        
         {returnedPhotos.length >0 ? (
           <>
             <ImageGallery
               inputPhotoTittle={returnedPhotos}
               onClick={showBigImg}
             />
+            {loader && <Loader />}
             <Button onClick={loadMore} />
           </>
         ) : <div>Здесь ,пока что, ничего нет. Введите запрос(🦆🐁🦝🐇)</div> }
