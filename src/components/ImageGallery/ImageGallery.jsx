@@ -2,13 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ImageGalleryItem } from './ImageGalleryItem';
 import css from '../ImageGallery/ImgGallary.module.css';
-export class ImageGallery extends React.Component {
-  static propTypes = {
-    inputPhotoTittle: PropTypes.array,
-    onClick: PropTypes.func,
-  }
-  render() {
-    const dataRender = this.props.inputPhotoTittle;
+export const ImageGallery =({inputPhotoTittle,onClick})=> {
+
+  
+    const dataRender = inputPhotoTittle;
     console.log(dataRender, 'gg');
     return (
       <>
@@ -19,11 +16,15 @@ export class ImageGallery extends React.Component {
                 key={p.id}
                 webformatURL={p.webformatURL}
                 largeImageURL={p.largeImageURL}
-                onClick={this.props.onClick}
+                onClick={onClick}
               />
             ))}
         </ul>
       </>
     );
-  }
+  
 }
+ImageGallery.propTypes = {
+  inputPhotoTittle: PropTypes.array,
+  onClick: PropTypes.func,
+};
