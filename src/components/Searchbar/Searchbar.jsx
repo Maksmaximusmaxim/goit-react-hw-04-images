@@ -1,47 +1,39 @@
-import React, { Component } from 'react';
+import  { useState } from 'react';
 import PropTypes from 'prop-types';
 import Notiflix from 'notiflix';
 import css from '../Searchbar/Searchbar.module.css';
-export class Searchbar extends Component {
-  state = {
-    photoTittle: '',
-  };
-  static propTypes = {
-    onSubmit:PropTypes.func,
-  }
-  reset = () => {
-    this.setState({
-      photoTittle: '',
-    });
+export function Searchbar ({onSubmitb}) {
+  const [photoTittle, setphotoTittle] = useState('');
+
+ 
+ const reset = () => {
+    setphotoTittle('')
   };
 
-  onSubmit = e => {
+const  onSubmit = e => {
     e.preventDefault();
-    if (this.state.photoTittle.trim() === '') {
+    if (photoTittle.trim() === '') {
       return Notiflix.Notify.info('Введите что нибудь');
     }
-
-    this.reset();
-    this.props.onSubmit(this.state.photoTittle);
+    reset();
+    onSubmitb(photoTittle);
   };
-  onChange = e => {
-    this.setState({
-      photoTittle: e.target.value,
-    });
+const  onChange = e => {
+  setphotoTittle(e.target.value)
   };
 
-  render() {
+ 
     return (
       <header className={css.searchbar}>
-        <form onSubmit={this.onSubmit} className={css.SearchForm}>
+        <form onSubmit={onSubmit} className={css.SearchForm}>
           <button type="submit" className={css.searchFormbutton}>
             <span>поиск</span>
           </button>
 
           <input
             className={css.searchForminput}
-            onChange={this.onChange}
-            value={this.state.photoTittle}
+            onChange={onChange}
+            value={photoTittle}
             type="text"
             autoComplete="off"
             autoFocus
@@ -50,5 +42,8 @@ export class Searchbar extends Component {
         </form>
       </header>
     );
-  }
+  
+}
+Searchbar.propTypes = {
+  onSubmitb:PropTypes.func,
 }

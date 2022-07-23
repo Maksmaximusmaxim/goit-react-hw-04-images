@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState , useEffect} from 'react';
 import { Searchbar } from '../components/Searchbar/Searchbar';
 import { Button } from './Button/Button';
 import { ImageGallery } from './ImageGallery/ImageGallery';
@@ -8,60 +8,57 @@ import { Loader } from './Loader/Loader';
 
 
 
-export class App extends React.Component {
-  state = {
-    photos: '',
-    page: 1,
-    showModal: false,
-    bigImg: '',
-    loader: false,
-    returnedPhotos: [],
+export function App () {
+  const [photos , setPhotos] = useState('');
+  const [page , setPage] = useState(1);
+  const [showModal , setShowModal] = useState(false);
+  const [bigImg , setBigImg] = useState('');
+  const [loader , setLoader] = useState(false);
+  const [returnedPhotos , setReturnedPhotos] = useState([]);
+
+
+ const togleModal = () => {
+  setShowModal(prevState => !prevState)
   };
 
-  togleModal = () => {
-    this.setState(prevState => ({
-      showModal: !prevState.showModal,
-    }));
-  };
-
-  inputData = data => {
+ const inputData = data => {
     console.log(data);
-    this.setState({
-      photos: data,
-      page: 1,
-      returnedPhotos: [],
+    setPhotos(data);
+    setPage(1);
+    setReturnedPhotos([]);
+  };
+  useEffect(()=>{
+    setLoader(prevState => !prevState);
+    api(photos, page).then(data => {
+      setReturnedPhotos(prevState => prevState.concat(data));
+      setLoader( prevState => !prevState)
     });
+  } , [photos,page]);
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (
+  //     prevState.photos !== this.state.photos ||
+  //     prevState.page !== this.state.page
+  //   ) {
+  
+
+  //     api(this.state.photos, this.state.page).then(data => {
+  //       this.setState(prevState => ({
+  //         returnedPhotos: prevState.returnedPhotos.concat(data),
+  //         loader: !prevState.loader,
+  //       }));
+  //     });
+
+  //   }
+  // }
+ const loadMore = () => {
+  setPage(prevState =>prevState + 1 )
   };
-  componentDidUpdate(prevProps, prevState) {
-    if (
-      prevState.photos !== this.state.photos ||
-      prevState.page !== this.state.page
-    ) {
-      this.setState({
-        loader: true,
-      });
-      api(this.state.photos, this.state.page).then(data => {
-        this.setState(prevState => ({
-          returnedPhotos: prevState.returnedPhotos.concat(data),
-          loader: !prevState.loader,
-        }));
-      });
-    }
-  }
-  loadMore = () => {
-    this.setState(prevState => ({ page: prevState.page + 1 }) );
+const showBigImg = bigImg => {
+  setBigImg(bigImg);
+  setShowModal(prevState => !prevState)
   };
-  showBigImg = bigImg => {
-    this.setState({
-      bigImg: bigImg,
-    });
-    this.setState(prevState => ({
-      showModal: !prevState.showModal,
-    }));
-  };
-  render() {
-    const {loader,returnedPhotos,showModal,bigImg} = this.state;
-    const {inputData,showBigImg,loadMore,togleModal} = this;
+  
+
     return (
       <div>
         <Searchbar onSubmit={inputData} />
@@ -82,5 +79,5 @@ export class App extends React.Component {
         )}
       </div>
     );
-  }
+  
 }
