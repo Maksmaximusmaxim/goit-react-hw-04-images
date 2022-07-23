@@ -28,6 +28,9 @@ export function App () {
     setReturnedPhotos([]);
   };
   useEffect(()=>{
+    if(photos === ''){
+      return;
+    }
     setLoader(prevState => !prevState);
     api(photos, page).then(data => {
       setReturnedPhotos(prevState => prevState.concat(data));
