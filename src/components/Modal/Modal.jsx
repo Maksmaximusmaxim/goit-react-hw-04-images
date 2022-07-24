@@ -4,8 +4,10 @@ import PropTypes from 'prop-types';
 import { createPortal } from 'react-dom';
 const modalRoot = document.querySelector('#modal-root');
 export function Modal({ onClose, bigImg }) {
-  useEffect(() => window.addEventListener('keydown', onKeydown));
-  useEffect(() => window.removeEventListener('keydown', onKeydown));
+  useEffect(() => {
+    window.addEventListener('keydown', onKeydown);
+    return () => window.removeEventListener('keydown', onKeydown);
+  });
 
   const onKeydown = e => {
     console.log(e.code);
